@@ -1,0 +1,179 @@
+/* App Layout - Mobile First */
+.app {
+  min-height: 100vh;
+  background: var(--bg-primary);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.app > .main-content {
+  flex: 1;
+}
+
+.main-content {
+  transition: margin-right var(--transition-normal);
+  min-height: 100vh;
+}
+
+.main-content.chat-open {
+  margin-right: 0;
+}
+
+/* Loading Screen - Mobile First */
+.loading-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--bg-primary);
+  padding: 20px;
+}
+
+.loading-content {
+  text-align: center;
+}
+
+.loading-logo {
+  font-size: 48px;
+  margin-bottom: 20px;
+  animation: float 3s ease-in-out infinite;
+}
+
+.loading-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--accent-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 12px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* Section anchors for navbar scroll */
+#home, #popular, #top-rated, #personalized, #genres {
+  scroll-margin-top: 60px;
+}
+
+/* Browse Section - Mobile First */
+.browse-section {
+  padding: 0 16px;
+  margin-top: -40px;
+  position: relative;
+  z-index: 2;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--text-primary);
+  padding-left: 4px;
+}
+
+/* Genre Section - Mobile First */
+.genre-section {
+  padding: 30px 0;
+}
+
+.genre-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.genre-chip {
+  padding: 8px 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 100px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.genre-chip:hover {
+  background: var(--accent-primary);
+  color: white;
+  border-color: var(--accent-primary);
+  transform: translateY(-1px);
+}
+
+.genre-chip.active {
+  background: var(--accent-primary);
+  color: white;
+  border-color: var(--accent-primary);
+}
+
+/* Error Banner - Mobile First */
+.error-banner {
+  background: rgba(229, 9, 20, 0.1);
+  border: 1px solid rgba(229, 9, 20, 0.3);
+  color: #ff6b6b;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  margin: 16px 0;
+  font-size: 13px;
+}
+
+/* Tablet styles */
+@media (min-width: 768px) {
+  .browse-section {
+    padding: 0 40px;
+    margin-top: -50px;
+  }
+  
+  .section-title {
+    font-size: 22px;
+  }
+  
+  .genre-grid {
+    gap: 10px;
+  }
+  
+  .genre-chip {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+  .browse-section {
+    padding: 0 60px;
+    margin-top: -60px;
+  }
+  
+  .section-title {
+    font-size: 24px;
+  }
+  
+  .main-content.chat-open {
+    margin-right: 400px;
+  }
+  
+  .genre-grid {
+    gap: 10px;
+  }
+}
+
+/* Animations */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}

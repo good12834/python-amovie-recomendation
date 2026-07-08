@@ -1,0 +1,49 @@
+{
+    "Good Man": {
+        "genres": [
+            "Action",
+            "Sci-Fi"
+        ],
+        "actors": [
+            "Keanu Reeves"
+        ],
+        "directors": [
+            "Christopher Nolan"
+        ],
+        "watched": [
+            "John Wick"
+        ],
+        "favorites": [
+            "Interstellar"
+        ],
+        "disliked_genres": [],
+        "disliked_movies": [],
+        "country": "",
+        "language": "",
+        "age": ""
+    },
+    "good man": {
+        "genres": [],
+        "actors": [],
+        "directors": [],
+        "watched": [],
+        "favorites": [],
+        "disliked_genres": [],
+        "disliked_movies": [],
+        "country": "",
+        "language": "",
+        "age": ""
+    },
+    "tess": {
+        "genres": [],
+        "actors": [],
+        "directors": [],
+        "watched": [],
+        "favorites": [],
+        "disliked_genres": [],
+        "disliked_movies": [],
+        "country": "",
+        "language": "",
+        "age": ""
+    }
+}
