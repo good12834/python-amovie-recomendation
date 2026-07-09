@@ -21,7 +21,17 @@ allowed_origins = [
     "https://frontend-ten-delta-mthu640p6m.vercel.app",
     "https://frontend-bxr157jxi-good-s-projects2.vercel.app"
 ]
-CORS(app, supports_credentials=True, origins=allowed_origins)
+
+# Configure CORS with proper preflight handling
+cors = CORS(app, supports_credentials=True, origins=allowed_origins, methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"], allow_headers=["Content-Type", "Authorization"])
+
+# Handle OPTIONS requests explicitly
+@app.route('/', defaults={'path': ''}, methods=['OPTIONS'])
+@app.route('/<path:path>', methods=['OPTIONS'])
+def handle_options(path):
+    response = jsonify({})
+    response.status_code = 200
+    return response
 tmdb = TMDBAPI()
 
 DATABASE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "moviebuddy.db")
