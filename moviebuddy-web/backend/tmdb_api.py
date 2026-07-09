@@ -150,7 +150,7 @@ class TMDBAPI:
             return self._format_results(data["results"])
         return []
 
-    def _get_genre_ids(self):
+    def _get_genre_id_map(self):
         """Get TMDB genre ID mapping."""
         data = self._get("genre/movie/list", {"language": "en-US"})
         if data and "genres" in data:
