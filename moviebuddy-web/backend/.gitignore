@@ -1,2 +1,11 @@
 .env
-.MovieBuddy
+*.db
+__pycache__/
+*.pyc
+*.pyo
+.Python
+*.so
+*.egg
+*.egg-info/
+.eggs/
+*.log

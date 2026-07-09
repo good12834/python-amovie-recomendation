@@ -13,7 +13,14 @@ load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", secrets.token_hex(32))
-CORS(app, supports_credentials=True, origins=["http://localhost:3000", "http://localhost:5173"])
+# Allow Vercel frontend and localhost for development
+allowed_origins = [
+    "http://localhost:3000", 
+    "http://localhost:5173",
+    "https://frontend-301cjvui3-good-s-projects2.vercel.app",
+    "https://frontend-ten-delta-mthu640p6m.vercel.app"
+]
+CORS(app, supports_credentials=True, origins=allowed_origins)
 tmdb = TMDBAPI()
 
 DATABASE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "moviebuddy.db")
@@ -812,7 +819,8 @@ def server_error(e):
 
 if __name__ == "__main__":
     init_db()
+    port = int(os.environ.get("PORT", 5001))
     print("🎬 MovieBuddy Web API Server")
     print(f"📁 Database: {DATABASE_PATH}")
-    print("🌐 http://localhost:5001")
-    app.run(debug=True, port=5001)
+    print(f"🌐 http://localhost:{port}")
+    app.run(debug=True, port=port, host="0.0.0.0")
