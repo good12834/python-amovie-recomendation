@@ -18,14 +18,6 @@ app.secret_key = os.getenv("SECRET_KEY", secrets.token_hex(32))
 # This allows any Vercel deployment URL to access the API
 CORS(app, supports_credentials=True, origins="*", allow_headers=["Content-Type", "Authorization", "Origin", "Accept"], max_age=3600)
 
-# Ensure CORS headers are added to all responses (including 404s and OPTIONS)
-@app.after_request
-def add_cors_headers(response):
-    response.headers['Access-Control-Allow-Origin'] = '*'
-    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
-    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, Origin, Accept'
-    return response
-
 # Health check endpoint
 @app.route('/', methods=['GET'])
 def health_check():
@@ -35,14 +27,6 @@ def health_check():
         "message": "MovieBuddy API is running",
         "version": "1.0.0"
     })
-
-# Handle OPTIONS requests explicitly
-@app.route('/', defaults={'path': ''}, methods=['OPTIONS'])
-@app.route('/<path:path>', methods=['OPTIONS'])
-def handle_options(path):
-    response = jsonify({})
-    response.status_code = 200
-    return response
 
 tmdb = TMDBAPI()
 
