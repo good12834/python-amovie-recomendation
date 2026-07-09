@@ -4,7 +4,6 @@ import json
 import secrets
 from datetime import datetime
 from flask import Flask, request, jsonify, session, g
-from flask_cors import CORS
 from dotenv import load_dotenv
 from tmdb_api import TMDBAPI
 import ai_chat
@@ -13,10 +12,6 @@ load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", secrets.token_hex(32))
-
-# Configure CORS to allow all origins
-# This allows any Vercel deployment URL to access the API
-CORS(app, supports_credentials=True, origins="*", allow_headers=["Content-Type", "Authorization", "Origin", "Accept"], max_age=3600)
 
 # Health check endpoint
 @app.route('/', methods=['GET'])
@@ -27,6 +22,23 @@ def health_check():
         "message": "MovieBuddy API is running",
         "version": "1.0.0"
     })
+
+# Manual CORS handling - add CORS headers to all responses
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, Origin, Accept'
+    response.headers['Access-Control-Max-Age'] = '3600'
+    return response
+
+# Handle OPTIONS requests for CORS preflight
+@app.route('/', methods=['OPTIONS'])
+@app.route('/<path:path>', methods=['OPTIONS'])
+def handle_options(path=''):
+    response = jsonify({})
+    response.status_code = 200
+    return response
 
 tmdb = TMDBAPI()
 
