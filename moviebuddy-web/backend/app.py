@@ -26,7 +26,14 @@ def health_check():
 # Manual CORS handling - add CORS headers to all responses
 @app.after_request
 def add_cors_headers(response):
-    response.headers['Access-Control-Allow-Origin'] = '*'
+    # Get the origin from the request
+    origin = request.headers.get('Origin')
+    
+    # Set the origin to match the request's origin (required for credentials)
+    if origin:
+        response.headers['Access-Control-Allow-Origin'] = origin
+        response.headers['Access-Control-Allow-Credentials'] = 'true'
+    
     response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
     response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, Origin, Accept'
     response.headers['Access-Control-Max-Age'] = '3600'
