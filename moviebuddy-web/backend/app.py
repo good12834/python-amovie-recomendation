@@ -12,6 +12,8 @@ load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", secrets.token_hex(32))
+app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+app.config['SESSION_COOKIE_SECURE'] = True
 
 # Health check endpoint
 @app.route('/', methods=['GET'])
@@ -709,7 +711,7 @@ def chat():
         "christian bale": "Christian Bale", "bale": "Christian Bale",
         "robert downey": "Robert Downey Jr.", "morgan freeman": "Morgan Freeman",
         "scarlett": "Scarlett Johansson", "johansson": "Scarlett Johansson",
-        "diCaprio": "Leonardo DiCaprio"
+        "dicaprio": "Leonardo DiCaprio"
     }
     for keyword, actor in actor_keywords.items():
         if keyword in msg_lower:
