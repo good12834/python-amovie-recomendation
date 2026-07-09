@@ -13,19 +13,11 @@ load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", secrets.token_hex(32))
-# Allow Vercel frontend and localhost for development
-allowed_origins = [
-    "http://localhost:3000", 
-    "http://localhost:5173",
-    "https://frontend-301cjvui3-good-s-projects2.vercel.app",
-    "https://frontend-ten-delta-mthu640p6m.vercel.app",
-    "https://frontend-bxr157jxi-good-s-projects2.vercel.app"
-]
+# Configure CORS to allow all origins (for debugging - can be restricted later)
+# This allows any Vercel deployment URL to access the API
+CORS(app, supports_credentials=True, origins="*", methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"], allow_headers=["Content-Type", "Authorization", "Origin", "Accept"], max_age=3600)
 
-# Configure CORS with proper preflight handling
-cors = CORS(app, supports_credentials=True, origins=allowed_origins, methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"], allow_headers=["Content-Type", "Authorization"])
-
-# Handle OPTIONS requests explicitly
+# Handle OPTIONS requests explicitly for preflight
 @app.route('/', defaults={'path': ''}, methods=['OPTIONS'])
 @app.route('/<path:path>', methods=['OPTIONS'])
 def handle_options(path):
