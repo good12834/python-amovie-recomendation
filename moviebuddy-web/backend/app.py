@@ -13,17 +13,9 @@ load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", secrets.token_hex(32))
-# Configure CORS to allow all origins (for debugging - can be restricted later)
+# Configure CORS to allow all origins
 # This allows any Vercel deployment URL to access the API
-CORS(app, supports_credentials=True, origins="*", methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"], allow_headers=["Content-Type", "Authorization", "Origin", "Accept"], max_age=3600)
-
-# Handle OPTIONS requests explicitly for preflight
-@app.route('/', defaults={'path': ''}, methods=['OPTIONS'])
-@app.route('/<path:path>', methods=['OPTIONS'])
-def handle_options(path):
-    response = jsonify({})
-    response.status_code = 200
-    return response
+CORS(app, supports_credentials=True, origins="*", allow_headers=["Content-Type", "Authorization", "Origin", "Accept"], max_age=3600)
 tmdb = TMDBAPI()
 
 DATABASE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "moviebuddy.db")
