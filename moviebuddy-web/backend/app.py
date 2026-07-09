@@ -18,7 +18,8 @@ allowed_origins = [
     "http://localhost:3000", 
     "http://localhost:5173",
     "https://frontend-301cjvui3-good-s-projects2.vercel.app",
-    "https://frontend-ten-delta-mthu640p6m.vercel.app"
+    "https://frontend-ten-delta-mthu640p6m.vercel.app",
+    "https://frontend-bxr157jxi-good-s-projects2.vercel.app"
 ]
 CORS(app, supports_credentials=True, origins=allowed_origins)
 tmdb = TMDBAPI()
