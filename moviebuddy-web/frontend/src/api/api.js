@@ -12,16 +12,28 @@ async function request(endpoint, options = {}) {
 
   try {
     const response = await fetch(`${API_BASE}${endpoint}`, config);
-    const data = await response.json();
+    
+    // Handle non-JSON responses (like 404s)
+    const contentType = response.headers.get('content-type');
+    let data;
+    if (contentType && contentType.includes('application/json')) {
+      data = await response.json();
+    } else {
+      data = { error: `Server returned ${response.status} ${response.statusText}` };
+    }
 
     if (!response.ok) {
-      throw new Error(data.error || 'Something went wrong');
+      throw new Error(data.error || `HTTP error! status: ${response.status}`);
     }
 
     return data;
   } catch (error) {
-    if (error.name === 'TypeError') {
-      throw new Error('Network error. Is the server running?');
+    // Provide more helpful error messages
+    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      throw new Error('Network error. Please check your connection and try again.');
+    }
+    if (error.message.includes('Failed to fetch')) {
+      throw new Error('Unable to connect to the server. Please try again later.');
     }
     throw error;
   }
