@@ -151,11 +151,17 @@ def init_db():
 app.teardown_appcontext(close_db)
 
 
+# Initialize database on app startup
+with app.app_context():
+    init_db()
+
+
 # ============================================================
 # AUTH / USER ENDPOINTS
 # ============================================================
 
 @app.route("/api/auth/login", methods=["POST"])
+@app.route("/auth/login", methods=["POST"])
 def login():
     """Login or create a new user."""
     data = request.get_json()
@@ -193,6 +199,7 @@ def login():
 
 
 @app.route("/api/auth/me", methods=["GET"])
+@app.route("/auth/me", methods=["GET"])
 def get_current_user():
     """Get current logged-in user info."""
     user_id = session.get("user_id")
@@ -220,6 +227,7 @@ def get_current_user():
 
 
 @app.route("/api/auth/logout", methods=["POST"])
+@app.route("/auth/logout", methods=["POST"])
 def logout():
     """Logout current user."""
     session.clear()
@@ -231,6 +239,7 @@ def logout():
 # ============================================================
 
 @app.route("/api/movies/popular", methods=["GET"])
+@app.route("/movies/popular", methods=["GET"])
 def get_popular_movies():
     """Get popular movies."""
     page = request.args.get("page", 1, type=int)
@@ -239,6 +248,7 @@ def get_popular_movies():
 
 
 @app.route("/api/movies/top-rated", methods=["GET"])
+@app.route("/movies/top-rated", methods=["GET"])
 def get_top_rated_movies():
     """Get top rated movies."""
     page = request.args.get("page", 1, type=int)
@@ -247,6 +257,7 @@ def get_top_rated_movies():
 
 
 @app.route("/api/movies/search", methods=["GET"])
+@app.route("/movies/search", methods=["GET"])
 def search_movies():
     """Search movies by title."""
     query = request.args.get("query", "").strip()
@@ -258,6 +269,7 @@ def search_movies():
 
 
 @app.route("/api/movies/<int:movie_id>", methods=["GET"])
+@app.route("/movies/<int:movie_id>", methods=["GET"])
 def get_movie_details(movie_id):
     """Get details for a specific movie."""
     movie = tmdb.get_movie_details(movie_id)
@@ -267,6 +279,7 @@ def get_movie_details(movie_id):
 
 
 @app.route("/api/movies/genre/<genre>", methods=["GET"])
+@app.route("/movies/genre/<genre>", methods=["GET"])
 def get_movies_by_genre(genre):
     """Get movies by genre."""
     page = request.args.get("page", 1, type=int)
@@ -276,6 +289,7 @@ def get_movies_by_genre(genre):
 
 
 @app.route("/api/genres", methods=["GET"])
+@app.route("/genres", methods=["GET"])
 def get_genres():
     """Get list of all genres."""
     genres = tmdb.get_genres_list()
@@ -283,6 +297,7 @@ def get_genres():
 
 
 @app.route("/api/movies/<int:movie_id>/videos", methods=["GET"])
+@app.route("/movies/<int:movie_id>/videos", methods=["GET"])
 def get_movie_videos(movie_id):
     """Get videos (trailers) for a specific movie."""
     videos = tmdb.get_movie_videos(movie_id)
@@ -290,6 +305,7 @@ def get_movie_videos(movie_id):
 
 
 @app.route("/api/movies/recommendations/<int:movie_id>", methods=["GET"])
+@app.route("/movies/recommendations/<int:movie_id>", methods=["GET"])
 def get_movie_recommendations(movie_id):
     """Get recommendations based on a movie."""
     movies = tmdb.get_recommendations(movie_id)
@@ -301,6 +317,7 @@ def get_movie_recommendations(movie_id):
 # ============================================================
 
 @app.route("/api/user/preferences", methods=["GET"])
+@app.route("/user/preferences", methods=["GET"])
 def get_user_preferences():
     """Get user preferences."""
     user_id = session.get("user_id")
@@ -344,6 +361,7 @@ def get_user_preferences():
 
 
 @app.route("/api/user/preferences", methods=["POST"])
+@app.route("/user/preferences", methods=["POST"])
 def update_preferences():
     """Update user preferences."""
     user_id = session.get("user_id")
@@ -387,6 +405,7 @@ def update_preferences():
 # ============================================================
 
 @app.route("/api/user/favorites", methods=["POST"])
+@app.route("/user/favorites", methods=["POST"])
 def add_favorite():
     """Add a movie to favorites."""
     user_id = session.get("user_id")
@@ -419,6 +438,7 @@ def add_favorite():
 
 
 @app.route("/api/user/favorites", methods=["DELETE"])
+@app.route("/user/favorites", methods=["DELETE"])
 def remove_favorite():
     """Remove a movie from favorites."""
     user_id = session.get("user_id")
@@ -438,6 +458,7 @@ def remove_favorite():
 
 
 @app.route("/api/user/ratings", methods=["POST"])
+@app.route("/user/ratings", methods=["POST"])
 def add_rating():
     """Rate a movie."""
     user_id = session.get("user_id")
@@ -468,6 +489,7 @@ def add_rating():
 
 
 @app.route("/api/user/watch-history", methods=["POST"])
+@app.route("/user/watch-history", methods=["POST"])
 def add_to_watch_history():
     """Add a movie to watch history."""
     user_id = session.get("user_id")
@@ -629,6 +651,7 @@ chatbot = MovieChatBot()
 
 
 @app.route("/api/chat", methods=["POST"])
+@app.route("/chat", methods=["POST"])
 def chat():
     """Process a chat message."""
     user_id = session.get("user_id")
@@ -737,6 +760,7 @@ def chat():
 
 
 @app.route("/api/chat/history", methods=["GET"])
+@app.route("/chat/history", methods=["GET"])
 def get_chat_history():
     """Get chat history for current user."""
     user_id = session.get("user_id")
@@ -760,6 +784,7 @@ def get_chat_history():
 # ============================================================
 
 @app.route("/api/recommendations/personalized", methods=["GET"])
+@app.route("/recommendations/personalized", methods=["GET"])
 def get_personalized_recommendations():
     """Get personalized movie recommendations based on user preferences."""
     user_id = session.get("user_id")
