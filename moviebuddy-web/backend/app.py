@@ -26,6 +26,16 @@ def add_cors_headers(response):
     response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, Origin, Accept'
     return response
 
+# Health check endpoint
+@app.route('/', methods=['GET'])
+def health_check():
+    """Health check endpoint."""
+    return jsonify({
+        "status": "ok",
+        "message": "MovieBuddy API is running",
+        "version": "1.0.0"
+    })
+
 # Handle OPTIONS requests explicitly
 @app.route('/', defaults={'path': ''}, methods=['OPTIONS'])
 @app.route('/<path:path>', methods=['OPTIONS'])
