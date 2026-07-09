@@ -2,7 +2,7 @@ services:
   - type: web
     name: moviebuddy-api
     runtime: python
-    buildCommand: cd moviebuddy-web/backend && pip install -r requirements.txt
+    buildCommand: pip install -r requirements.txt
     startCommand: cd moviebuddy-web/backend && python -m gunicorn app:app
     envVars:
       - key: TMDB_API_KEY
